@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Water Resource Management — Learning Curriculum</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1a2744;
+  --teal: #0d7a6e;
+  --teal-light: #e6f4f2;
+  --teal-mid: #1d9e8f;
+  --amber: #c47a1a;
+  --amber-light: #fdf3e3;
+  --red-light: #fdecea;
+  --red: #b94040;
+  --green-light: #eaf4ec;
+  --green: #2e7d4f;
+  --grey-50: #f8f7f4;
+  --grey-100: #eeece8;
+  --grey-200: #d8d5cf;
+  --grey-400: #9e9a94;
+  --grey-700: #4a4742;
+  --white: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Source Sans 3', sans-serif; background: var(--grey-50); color: var(--grey-700); font-size: 16px; line-height: 1.65; }
+header { background: var(--navy); padding: 3rem 2rem 2rem; text-align: center; }
+header h1 { font-family: 'Lora', serif; font-size: 2rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+header p { color: rgba(255,255,255,0.6); font-size: 0.95rem; font-weight: 300; max-width: 500px; margin: 0 auto; }
+.nav-strip { background: var(--white); border-bottom: 1px solid var(--grey-100); display: flex; overflow-x: auto; padding: 0 1rem; }
+.nav-tab { flex-shrink: 0; padding: 1rem 1.25rem; font-size: 0.875rem; font-weight: 500; color: var(--grey-400); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; white-space: nowrap; background: none; border-top: none; border-left: none; border-right: none; }
+.nav-tab:hover { color: var(--grey-700); }
+.nav-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+.progress-bar { width: 100%; height: 3px; background: var(--grey-100); }
+.progress-fill { height: 100%; background: var(--teal-mid); transition: width 0.4s ease; }
+main { max-width: 720px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+.module { display: none; }
+.module.active { display: block; }
+.module-header { margin-bottom: 1.5rem; }
+.module-number { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; color: var(--teal); text-transform: uppercase; margin-bottom: 0.35rem; }
+.module-title { font-family: 'Lora', serif; font-size: 1.6rem; font-weight: 600; color: var(--navy); line-height: 1.25; }
+.illus { width: 100%; border-radius: 12px; margin-bottom: 1.25rem; overflow: hidden; }
+.card { background: var(--white); border: 1px solid var(--grey-100); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.25rem; }
+.card-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-400); margin-bottom: 0.75rem; }
+.card h3 { font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 600; color: var(--navy); margin-bottom: 0.75rem; }
+.card p, .card li { font-size: 0.93rem; line-height: 1.7; color: var(--grey-700); }
+.card ul, .card ol { padding-left: 1.25rem; margin-top: 0.5rem; }
+.card li { margin-bottom: 0.4rem; }
+.callout { border-radius: 8px; padding: 0.875rem 1.1rem; font-size: 0.875rem; line-height: 1.6; margin: 1rem 0; }
+.callout.info { background: var(--teal-light); color: var(--teal); }
+.callout.warn { background: var(--amber-light); color: var(--amber); }
+.callout.danger { background: var(--red-light); color: var(--red); }
+.callout.success { background: var(--green-light); color: var(--green); }
+.callout strong { font-weight: 600; }
+.stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin: 1rem 0; }
+.stat-box { background: var(--grey-50); border: 1px solid var(--grey-100); border-radius: 8px; padding: 0.875rem; text-align: center; }
+.stat-box .num { font-family: 'Lora', serif; font-size: 1.4rem; font-weight: 600; color: var(--navy); }
+.stat-box .lbl { font-size: 0.78rem; color: var(--grey-400); margin-top: 2px; line-height: 1.4; }
+.divider { height: 1px; background: var(--grey-100); margin: 1.25rem 0; }
+.strategy-block { border-left: 3px solid var(--teal-mid); padding-left: 1rem; margin-bottom: 1.25rem; }
+.strategy-block h4 { font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 0.4rem; }
+.strategy-block ul { padding-left: 1rem; margin: 0; }
+.strategy-block li { font-size: 0.88rem; color: var(--grey-700); margin-bottom: 0.3rem; }
+.scenario-box { background: var(--grey-50); border: 1px solid var(--grey-200); border-radius: 8px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.scenario-box .scenario-title { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--grey-400); margin-bottom: 0.5rem; }
+.scenario-box p { font-size: 0.9rem; color: var(--grey-700); line-height: 1.65; }
+.q-block { margin-bottom: 1.5rem; }
+.q-text { font-size: 0.93rem; font-weight: 500; color: var(--navy); margin-bottom: 0.75rem; line-height: 1.5; }
+.q-options { display: flex; flex-direction: column; gap: 6px; }
+.q-options label { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--grey-100); border-radius: 8px; font-size: 0.875rem; cursor: pointer; background: var(--white); transition: border-color 0.12s, background 0.12s; line-height: 1.5; }
+.q-options label:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+.q-options input[type=radio] { margin-top: 2px; flex-shrink: 0; accent-color: var(--teal); }
+.check-btn { margin-top: 0.6rem; padding: 7px 18px; font-size: 0.85rem; font-weight: 500; font-family: 'Source Sans 3', sans-serif; background: var(--navy); color: var(--white); border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.15s; }
+.check-btn:hover { opacity: 0.88; }
+.feedback { display: none; margin-top: 8px; padding: 10px 12px; border-radius: 8px; font-size: 0.86rem; line-height: 1.55; }
+.feedback.correct { background: var(--green-light); color: var(--green); }
+.feedback.wrong { background: var(--red-light); color: var(--red); }
+textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--grey-200); border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; color: var(--grey-700); background: var(--white); resize: vertical; margin-bottom: 0.75rem; transition: border-color 0.12s; }
+textarea:focus { outline: none; border-color: var(--teal-mid); }
+.save-btn { padding: 9px 22px; font-size: 0.9rem; font-weight: 500; font-family: 'Source Sans 3', sans-serif; background: var(--teal); color: var(--white); border: none; border-radius: 8px; cursor: pointer; transition: opacity 0.15s; }
+.save-btn:hover { opacity: 0.88; }
+.nav-footer { display: flex; justify-content: space-between; margin-top: 2rem; gap: 12px; }
+.nav-footer button { padding: 9px 20px; font-size: 0.875rem; font-weight: 500; font-family: 'Source Sans 3', sans-serif; background: var(--white); color: var(--navy); border: 1px solid var(--grey-200); border-radius: 8px; cursor: pointer; transition: background 0.12s; }
+.nav-footer button:hover { background: var(--grey-50); }
+.nav-footer button:disabled { opacity: 0.35; cursor: default; }
+.nav-footer .next-btn { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.nav-footer .next-btn:hover { opacity: 0.88; background: var(--navy); }
+footer { text-align: center; padding: 2rem 1rem; font-size: 0.8rem; color: var(--grey-400); border-top: 1px solid var(--grey-100); }
+.kc-card { background: var(--navy); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.25rem; color: var(--white); }
+.kc-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-mid); margin-bottom: 0.75rem; }
+.kc-card h3 { font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: 0.75rem; }
+.kc-item { margin-bottom: 1rem; }
+.kc-item-title { font-size: 0.85rem; font-weight: 600; color: var(--teal-mid); margin-bottom: 0.25rem; }
+.kc-item p { font-size: 0.875rem; color: rgba(255,255,255,0.78); line-height: 1.6; }
+.kc-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 1rem 0; }
+.kc-table { width: 100%; border-collapse: collapse; font-size: 0.825rem; margin-top: 0.5rem; }
+.kc-table th { text-align: left; color: var(--teal-mid); font-weight: 600; padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+.kc-table td { color: rgba(255,255,255,0.78); padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.07); vertical-align: top; line-height: 1.5; }
+.kc-highlight { background: rgba(29,158,143,0.15); border-left: 3px solid var(--teal-mid); border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; font-size: 0.875rem; color: rgba(255,255,255,0.85); margin-top: 0.75rem; line-height: 1.6; }
+.drag-container { margin: 0.75rem 0; }
+.drag-bank { display: flex; flex-wrap: wrap; gap: 8px; padding: 0.75rem; background: var(--grey-50); border: 1px dashed var(--grey-200); border-radius: 8px; min-height: 48px; margin-bottom: 0.5rem; }
+.drag-item { padding: 6px 14px; background: var(--white); border: 1px solid var(--grey-200); border-radius: 99px; font-size: 0.85rem; cursor: grab; user-select: none; transition: background 0.1s; color: var(--grey-700); }
+.drag-item:active { cursor: grabbing; }
+.drag-item.dragging { opacity: 0.4; }
+.drop-zone { display: flex; flex-wrap: wrap; gap: 8px; padding: 0.75rem; background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 8px; min-height: 48px; margin-bottom: 0.5rem; }
+.drop-zone.drag-over { background: #c5e8e4; }
+.drop-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.25rem; }
+.drag-feedback { font-size: 0.86rem; padding: 8px 12px; border-radius: 8px; display: none; margin-top: 6px; }
+.drag-feedback.correct { background: var(--green-light); color: var(--green); }
+.drag-feedback.wrong { background: var(--red-light); color: var(--red); }
+.rank-list { list-style: none; padding: 0; margin: 0.5rem 0; }
+.rank-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--white); border: 1px solid var(--grey-100); border-radius: 8px; margin-bottom: 6px; cursor: grab; font-size: 0.875rem; color: var(--grey-700); user-select: none; }
+.rank-item .handle { color: var(--grey-400); font-size: 1rem; flex-shrink: 0; }
+.rank-item.drag-over-top { border-top: 2px solid var(--teal-mid); }
+.rank-item.drag-over-bottom { border-bottom: 2px solid var(--teal-mid); }
+.open-q textarea { border-color: var(--grey-200); }
+.open-q-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--grey-400); margin-bottom: 0.5rem; }
+.print-btn { padding: 9px 22px; font-size: 0.9rem; font-weight: 500; font-family: 'Source Sans 3', sans-serif; background: var(--navy); color: var(--white); border: none; border-radius: 8px; cursor: pointer; margin-left: 10px; transition: opacity 0.15s; }
+.print-btn:hover { opacity: 0.88; }
+@media (max-width: 480px) { header h1 { font-size: 1.5rem; } .stats-grid { grid-template-columns: 1fr 1fr; } main { padding: 1.5rem 1rem 3rem; } }
+@media print {
+  .nav-strip, .nav-footer, .progress-bar, header, footer, .check-btn, .save-btn, .print-btn, .drag-bank, .check-btn { display: none !important; }
+  .module { display: none !important; }
+  #print-plan { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Water Resource Management</h1>
+  <p>A self-guided learning curriculum for households and communities in water-scarce environments</p>
+</header>
+
+<div class="nav-strip">
+  <button class="nav-tab active" onclick="showMod(0)">1 — Where water comes from</button>
+  <button class="nav-tab" onclick="showMod(1)">2 — Where your water goes</button>
+  <button class="nav-tab" onclick="showMod(2)">3 — Using water better</button>
+  <button class="nav-tab" onclick="showMod(3)">4 — Community decisions</button>
+</div>
+
+<div class="progress-bar">
+  <div class="progress-fill" id="prog" style="width:25%"></div>
+</div>
+
+<main>
+
+<!-- MODULE 1 -->
+<div class="module active" id="mod0">
+  <div class="module-header">
+    <div class="module-number">Module 1 of 4</div>
+    <div class="module-title">Where water comes from</div>
+  </div>
+
+  <div class="illus">
+    <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">
+      <rect width="720" height="220" fill="#e6f4f2"/>
+      <ellipse cx="360" cy="260" rx="400" ry="120" fill="#1a2744" opacity="0.08"/>
+      <rect width="720" height="140" fill="#dbeef9"/>
+      <polygon points="0,140 120,60 240,140" fill="#1a2744" opacity="0.18"/>
+      <polygon points="180,140 320,40 460,140" fill="#1a2744" opacity="0.13"/>
+      <polygon points="400,140 540,70 680,140" fill="#1a2744" opacity="0.16"/>
+      <rect y="140" width="720" height="80" fill="#c5e8e4"/>
+      <path d="M0,175 Q180,155 360,175 Q540,195 720,170" fill="none" stroke="#1d9e8f" stroke-width="8" opacity="0.6"/>
+      <circle cx="620" cy="48" r="28" fill="#f5c842" opacity="0.85"/>
+      <ellipse cx="180" cy="38" rx="55" ry="22" fill="white" opacity="0.85"/>
+      <ellipse cx="210" cy="30" rx="38" ry="18" fill="white" opacity="0.9"/>
+      <ellipse cx="150" cy="32" rx="32" ry="16" fill="white" opacity="0.8"/>
+      <ellipse cx="440" cy="52" rx="45" ry="18" fill="white" opacity="0.75"/>
+      <ellipse cx="470" cy="44" rx="30" ry="15" fill="white" opacity="0.8"/>
+      <line x1="175" y1="62" x2="168" y2="82" stroke="#378ADD" stroke-width="2" opacity="0.7"/>
+      <line x1="190" y1="66" x2="183" y2="86" stroke="#378ADD" stroke-width="2" opacity="0.7"/>
+      <line x1="205" y1="62" x2="198" y2="82" stroke="#378ADD" stroke-width="2" opacity="0.7"/>
+      <path d="M360,155 Q355,130 360,110" fill="none" stroke="#1d9e8f" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+      <path d="M390,160 Q385,135 390,115" fill="none" stroke="#1d9e8f" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+      <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1d9e8f"/></marker></defs>
+      <text x="170" y="100" font-family="sans-serif" font-size="11" fill="#185FA5" font-weight="600">Precipitation</text>
+      <text x="345" y="108" font-family="sans-serif" font-size="11" fill="#0d7a6e" font-weight="600">Evaporation</text>
+      <text x="300" y="172" font-family="sans-serif" font-size="11" fill="#0d7a6e" font-weight="600">Surface water</text>
+      <text x="80" y="185" font-family="sans-serif" font-size="11" fill="#1a2744" opacity="0.7">Groundwater</text>
+      <path d="M90,175 Q95,185 100,195" fill="none" stroke="#1a2744" stroke-width="1.5" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <div class="kc-card">
+    <div class="kc-label">Key concepts — Module 1</div>
+    <h3>Essential knowledge for this module</h3>
+    <div class="kc-item">
+      <div class="kc-item-title">The water cycle</div>
+      <p>Water moves continuously between the earth and the atmosphere: evaporation → condensation → precipitation → and the cycle repeats. Water is never created or destroyed — only relocated.</p>
+    </div>
+    <div class="kc-divider"></div>
+    <div class="kc-item">
+      <div class="kc-item-title">Global freshwater distribution</div>
+      <table class="kc-table">
+        <tr><th>Share</th><th>Where it is</th><th>Available?</th></tr>
+        <tr><td>97%</td><td>Oceans (saltwater)</td><td>No — too salty</td></tr>
+        <tr><td>2%</td><td>Glaciers and polar ice</td><td>No — frozen</td></tr>
+        <tr><td>1%</td><td>Rivers, lakes, groundwater</td><td>Yes — our only source</td></tr>
+      </table>
+    </div>
+    <div class="kc-divider"></div>
+    <div class="kc-item">
+      <div class="kc-item-title">Three freshwater sources in rural communities</div>
+      <table class="kc-table">
+        <tr><th>Source</th><th>Access method</th><th>Main risk</th></tr>
+        <tr><td>Surface water</td><td>Rivers, streams, ponds</td><td>Contamination from animals and waste</td></tr>
+        <tr><td>Groundwater</td><td>Wells, boreholes</td><td>Requires equipment; may be seasonal</td></tr>
+        <tr><td>Rainwater</td><td>Roof or ground collection</td><td>Seasonal only</td></tr>
+      </table>
+    </div>
+    <div class="kc-highlight">Time cost: In many rural communities, water collection takes 2–6 hours per day, carried out primarily by women and girls. Every hour spent collecting water is an hour not spent on education, work, or rest.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Core concept</div>
+    <h3>The water cycle — what you need to know</h3>
+    <p>Water moves in a continuous loop. Rain falls, soaks into the ground or flows into rivers, evaporates back into the sky, and falls again.</p>
+    <div class="callout info"><strong>Key idea:</strong> Water does not disappear. But it can become too far away, too dirty, or too scarce to use. Managing water means understanding where it is and how to reach it without wasting it.</div>
+    <div class="stats-grid">
+      <div class="stat-box"><div class="num">97%</div><div class="lbl">of Earth's water is saltwater — not drinkable</div></div>
+      <div class="stat-box"><div class="num">2%</div><div class="lbl">is frozen in glaciers and ice caps</div></div>
+      <div class="stat-box"><div class="num">1%</div><div class="lbl">is the freshwater we all depend on</div></div>
+    </div>
+    <div class="divider"></div>
+    <h3>Where freshwater comes from in rural communities</h3>
+    <ul style="margin-top:0.75rem">
+      <li><strong>Surface water</strong> — rivers, streams, ponds. Often shared with animals. Can carry disease if untreated.</li>
+      <li><strong>Groundwater</strong> — wells, boreholes. Usually cleaner, but requires effort to access.</li>
+      <li><strong>Rainwater</strong> — collected from roofs or ground. Free, but only available seasonally.</li>
+    </ul>
+    <div class="callout warn"><strong>Time cost of water collection:</strong> In many communities, women and girls walk 2–6 hours per day to collect water. Every hour spent collecting is an hour not spent on education, work, or rest.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Check your understanding — 5 questions</div>
+
+    <div class="q-block">
+      <div class="q-text">1. Why does freshwater become scarce even though water never disappears from Earth?</div>
+      <div class="q-options" id="q0-0">
+        <label><input type="radio" name="q0-0" value="a"> Most water on Earth is saltwater or frozen and cannot be used directly</label>
+        <label><input type="radio" name="q0-0" value="b"> Water is being destroyed by pollution</label>
+        <label><input type="radio" name="q0-0" value="c"> The water cycle has stopped in dry regions</label>
+      </div>
+      <button class="check-btn" onclick="check('q0-0','a','Correct. 97% is saltwater, 2% is frozen — only 1% of all water on Earth is accessible freshwater.','Water is not destroyed — it changes form and location. The real issue is accessibility.')">Check answer</button>
+      <div class="feedback" id="fb-q0-0"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">2. A family gets their water from a river that animals also drink from. What is the main risk?</div>
+      <div class="q-options" id="q0-1">
+        <label><input type="radio" name="q0-1" value="a"> The water will run out faster</label>
+        <label><input type="radio" name="q0-1" value="b"> The water may carry disease-causing bacteria from animal waste</label>
+        <label><input type="radio" name="q0-1" value="c"> The water will taste bad but is otherwise safe</label>
+      </div>
+      <button class="check-btn" onclick="check('q0-1','b','Correct. Surface water shared with animals often contains harmful bacteria. Clear water is not necessarily safe water.','Taste alone does not indicate safety. Surface water shared with animals is a significant disease risk.')">Check answer</button>
+      <div class="feedback" id="fb-q0-1"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">3. Which water source is usually cleanest but hardest to access?</div>
+      <div class="q-options" id="q0-2">
+        <label><input type="radio" name="q0-2" value="a"> River water</label>
+        <label><input type="radio" name="q0-2" value="b"> Rainwater</label>
+        <label><input type="radio" name="q0-2" value="c"> Groundwater from a well or borehole</label>
+      </div>
+      <button class="check-btn" onclick="check('q0-2','c','Correct. Groundwater is protected underground from animal and surface contamination, making it generally cleaner — but reaching it requires digging or drilling equipment.','Rainwater is clean when it falls but needs clean collection containers. Rivers carry surface contamination.')">Check answer</button>
+      <div class="feedback" id="fb-q0-2"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">4. Drag the steps of the water cycle into the correct order.</div>
+      <div class="drag-container">
+        <div class="drop-label">Your order (drag items here):</div>
+        <div class="drop-zone" id="dz-cycle" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="dropItem(event,'dz-cycle')"></div>
+        <div class="drop-label">Available steps:</div>
+        <div class="drag-bank" id="db-cycle">
+          <span class="drag-item" draggable="true" ondragstart="dragStart(event)" data-val="precip">Precipitation</span>
+          <span class="drag-item" draggable="true" ondragstart="dragStart(event)" data-val="runoff">Runoff / collection</span>
+          <span class="drag-item" draggable="true" ondragstart="dragStart(event)" data-val="evap">Evaporation</span>
+          <span class="drag-item" draggable="true" ondragstart="dragStart(event)" data-val="cond">Condensation</span>
+        </div>
+        <button class="check-btn" onclick="checkDrag('dz-cycle',['evap','cond','precip','runoff'],'Correct! Evaporation → Condensation → Precipitation → Runoff/collection. This is the continuous water cycle.','Not quite. The correct order is: Evaporation → Condensation → Precipitation → Runoff/collection.')">Check order</button>
+        <div class="drag-feedback" id="fb-dz-cycle"></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">5. In your own words: why does water scarcity particularly affect women and girls more than other household members?</div>
+      <div class="open-q">
+        <div class="open-q-label">Your answer</div>
+        <textarea rows="3" placeholder="Write your thoughts here — there is no single correct answer..."></textarea>
+        <div class="callout info" style="margin-top:0">In most communities, women and girls are responsible for collecting water. When the source is far away, they spend hours each day on this task — time that cannot be spent on school, work, or rest. Water scarcity therefore falls most heavily on those already carrying the greatest domestic burden.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav-footer">
+    <button disabled>← Previous</button>
+    <button class="next-btn" onclick="showMod(1)">Next module →</button>
+  </div>
+</div>
+
+<!-- MODULE 2 -->
+<div class="module" id="mod1">
+  <div class="module-header">
+    <div class="module-number">Module 2 of 4</div>
+    <div class="module-title">Where your water goes</div>
+  </div>
+
+  <div class="illus">
+    <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">
+      <rect width="720" height="200" fill="#f8f7f4"/>
+      <rect x="60" y="30" width="130" height="130" rx="10" fill="#e6f4f2" stroke="#1d9e8f" stroke-width="1.5"/>
+      <text x="125" y="58" font-family="sans-serif" font-size="13" fill="#0d7a6e" font-weight="700" text-anchor="middle">Drinking</text>
+      <rect x="80" y="68" width="90" height="70" rx="4" fill="#1d9e8f" opacity="0.25"/>
+      <rect x="80" y="108" width="90" height="30" rx="4" fill="#1d9e8f" opacity="0.7"/>
+      <text x="125" y="172" font-family="sans-serif" font-size="11" fill="#0d7a6e" text-anchor="middle">3–5 L / person</text>
+      <rect x="210" y="30" width="130" height="130" rx="10" fill="#fdf3e3" stroke="#c47a1a" stroke-width="1.5"/>
+      <text x="275" y="58" font-family="sans-serif" font-size="13" fill="#c47a1a" font-weight="700" text-anchor="middle">Cooking</text>
+      <rect x="230" y="68" width="90" height="70" rx="4" fill="#c47a1a" opacity="0.2"/>
+      <rect x="230" y="98" width="90" height="40" rx="4" fill="#c47a1a" opacity="0.6"/>
+      <text x="275" y="172" font-family="sans-serif" font-size="11" fill="#c47a1a" text-anchor="middle">2–4 L / person</text>
+      <rect x="360" y="30" width="130" height="130" rx="10" fill="#eaf4ec" stroke="#2e7d4f" stroke-width="1.5"/>
+      <text x="425" y="58" font-family="sans-serif" font-size="13" fill="#2e7d4f" font-weight="700" text-anchor="middle">Hygiene</text>
+      <rect x="380" y="68" width="90" height="70" rx="4" fill="#2e7d4f" opacity="0.2"/>
+      <rect x="380" y="83" width="90" height="55" rx="4" fill="#2e7d4f" opacity="0.55"/>
+      <text x="425" y="172" font-family="sans-serif" font-size="11" fill="#2e7d4f" text-anchor="middle">5–10 L / person</text>
+      <rect x="510" y="30" width="150" height="130" rx="10" fill="#e6f0fb" stroke="#185FA5" stroke-width="1.5"/>
+      <text x="585" y="58" font-family="sans-serif" font-size="13" fill="#185FA5" font-weight="700" text-anchor="middle">Agriculture</text>
+      <rect x="530" y="68" width="110" height="70" rx="4" fill="#185FA5" opacity="0.2"/>
+      <rect x="530" y="68" width="110" height="68" rx="4" fill="#185FA5" opacity="0.55"/>
+      <text x="585" y="172" font-family="sans-serif" font-size="11" fill="#185FA5" text-anchor="middle">Often 10–20× more</text>
+    </svg>
+  </div>
+
+  <div class="kc-card">
+    <div class="kc-label">Key concepts — Module 2</div>
+    <h3>Essential knowledge for this module</h3>
+    <div class="kc-item">
+      <div class="kc-item-title">Four household water use categories</div>
+      <table class="kc-table">
+        <tr><th>Use</th><th>Typical daily amount</th><th>Priority</th></tr>
+        <tr><td>Drinking</td><td>3–5 L per person</td><td>Highest — survival critical</td></tr>
+        <tr><td>Cooking</td><td>2–4 L per person</td><td>High</td></tr>
+        <tr><td>Hygiene</td><td>5–10 L per person</td><td>Medium — health critical</td></tr>
+        <tr><td>Agriculture / livestock</td><td>Varies widely</td><td>Often the largest user</td></tr>
+      </table>
+    </div>
+    <div class="kc-divider"></div>
+    <div class="kc-item">
+      <div class="kc-item-title">WHO water standards</div>
+      <p><strong style="color:var(--teal-mid)">15 litres per person per day</strong> — minimum for basic survival.</p>
+      <p style="margin-top:0.4rem"><strong style="color:var(--teal-mid)">50 litres per person per day</strong> — standard for adequate health and dignity.</p>
+    </div>
+    <div class="kc-divider"></div>
+    <div class="kc-item">
+      <div class="kc-item-title">How to calculate household water use</div>
+      <p>Daily total (L) = number of collection trips × litres per container. Per-person daily use = daily total ÷ number of people in household.</p>
+    </div>
+    <div class="kc-highlight">Agriculture insight: Livestock and crops typically use 10–20× more water than human needs. This is almost always where the largest savings are possible.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Core concept</div>
+    <h3>Understanding your household water use</h3>
+    <p>Before you can manage water better, you need to know where it actually goes.</p>
+    <div class="stats-grid" style="grid-template-columns:repeat(2,1fr);margin:1rem 0">
+      <div class="stat-box"><div class="num" style="font-size:1rem;color:var(--teal)">Drinking</div><div class="lbl">3–5 L per person per day minimum</div></div>
+      <div class="stat-box"><div class="num" style="font-size:1rem;color:var(--teal)">Cooking</div><div class="lbl">2–4 L per person per day</div></div>
+      <div class="stat-box"><div class="num" style="font-size:1rem;color:var(--teal)">Hygiene</div><div class="lbl">5–10 L per person per day</div></div>
+      <div class="stat-box"><div class="num" style="font-size:1rem;color:var(--teal)">Agriculture</div><div class="lbl">Varies greatly by crop and method</div></div>
+    </div>
+    <div class="callout info"><strong>WHO standard:</strong> 15 litres per person per day is the minimum for basic survival. 50 litres per person per day is the standard for adequate health.</div>
+    <div class="divider"></div>
+    <h3>How to measure your household's actual use</h3>
+    <ol style="padding-left:1.25rem;margin-top:0.5rem">
+      <li>Count how many containers you collect each day and estimate their size in litres</li>
+      <li>For one week, note roughly how each container was used</li>
+      <li>Divide the total by the number of people in your household</li>
+      <li>Compare to the WHO standards above</li>
+    </ol>
+    <div class="callout warn"><strong>Agriculture is usually the biggest user.</strong> Livestock and crops often use 10–20× more water than household needs.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Scenario exercise + 5 questions</div>
+    <div class="scenario-box">
+      <div class="scenario-title">Fatima's household</div>
+      <p>Fatima lives with 6 family members. She makes 3 trips to the river each day, carrying a 20-litre container each time. She estimates: 12 L for drinking, 10 L for cooking, 18 L for washing, and 20 L for their two goats.</p>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">1. How many litres per person per day does Fatima's household use?</div>
+      <div class="q-options" id="q1-0">
+        <label><input type="radio" name="q1-0" value="a"> 5 litres per person per day</label>
+        <label><input type="radio" name="q1-0" value="b"> 10 litres per person per day</label>
+        <label><input type="radio" name="q1-0" value="c"> 15 litres per person per day</label>
+      </div>
+      <button class="check-btn" onclick="check('q1-0','b','Correct. Total = 3 × 20 = 60 L. 60 ÷ 6 people = 10 L per person per day — below the WHO minimum of 15 L.','Total collected = 3 × 20 = 60 L. Divide by 6 people = 10 L per person per day.')">Check answer</button>
+      <div class="feedback" id="fb-q1-0"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">2. Fatima wants to reach the WHO minimum of 15 L per person. What is the simplest change?</div>
+      <div class="q-options" id="q1-1">
+        <label><input type="radio" name="q1-1" value="a"> Reduce drinking water to save for other uses</label>
+        <label><input type="radio" name="q1-1" value="b"> Add one more collection trip per day</label>
+        <label><input type="radio" name="q1-1" value="c"> Move the goats to a separate water source</label>
+      </div>
+      <button class="check-btn" onclick="check('q1-1','c','Correct. Separating livestock frees up 20 L — bringing per-person use closer to the minimum without adding collection time.','Reducing drinking water is dangerous. Adding a trip costs time. Separating livestock is highest-impact, lowest-cost.')">Check answer</button>
+      <div class="feedback" id="fb-q1-1"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">3. Rank these water uses from highest to lowest priority in a survival situation. Drag to reorder.</div>
+      <ul class="rank-list" id="rank-priority">
+        <li class="rank-item" draggable="true" data-val="drink"><span class="handle">⠿</span> Drinking water for people</li>
+        <li class="rank-item" draggable="true" data-val="crop"><span class="handle">⠿</span> Watering crops</li>
+        <li class="rank-item" draggable="true" data-val="cook"><span class="handle">⠿</span> Cooking water</li>
+        <li class="rank-item" draggable="true" data-val="hygiene"><span class="handle">⠿</span> Basic hygiene (handwashing)</li>
+        <li class="rank-item" draggable="true" data-val="animal"><span class="handle">⠿</span> Livestock water</li>
+      </ul>
+      <button class="check-btn" onclick="checkRank('rank-priority',['drink','cook','hygiene','animal','crop'],'Good thinking. Drinking → Cooking → Basic hygiene → Livestock → Crops reflects the survival priority order. Crops can usually survive brief water reduction; humans cannot.','Consider this order: Drinking → Cooking → Basic hygiene → Livestock → Crops. Survival needs come before agricultural ones.')">Check ranking</button>
+      <div class="drag-feedback" id="fb-rank-priority"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">4. If a household collects 80 litres per day for 5 people, are they above or below the WHO adequate standard of 50 L per person?</div>
+      <div class="q-options" id="q1-3">
+        <label><input type="radio" name="q1-3" value="a"> Above — they have more than enough</label>
+        <label><input type="radio" name="q1-3" value="b"> Below — they do not meet the adequate standard</label>
+        <label><input type="radio" name="q1-3" value="c"> Exactly at the standard</label>
+      </div>
+      <button class="check-btn" onclick="check('q1-3','b','Correct. 80 ÷ 5 = 16 L per person per day. This meets the survival minimum of 15 L but is far below the adequate standard of 50 L.','80 ÷ 5 = 16 L per person per day. Compare to the WHO adequate standard of 50 L.')">Check answer</button>
+      <div class="feedback" id="fb-q1-3"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">5. Think about your own household (or a household you know). Which use category takes the most water? Is this what you expected?</div>
+      <div class="open-q">
+        <div class="open-q-label">Your reflection</div>
+        <textarea rows="3" placeholder="Write your thoughts — agriculture and livestock often surprise people by being the largest user by far..."></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav-footer">
+    <button onclick="showMod(0)">← Previous</button>
+    <button class="next-btn" onclick="showMod(2)">Next module →</button>
+  </div>
+</div>
+
+<!-- MODULE 3 -->
+<div class="module" id="mod2">
+  <div class="module-header">
+    <div class="module-number">Module 3 of 4</div>
+    <div class="module-title">Using water better</div>
+  </div>
+
+  <div class="illus">
+    <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">
+      <rect width="720" height="200" fill="#eaf4ec"/>
+      <circle cx="90" cy="100" r="60" fill="white" opacity="0.7"/>
+      <text x="90" y="72" font-family="sans-serif" font-size="11" fill="#2e7d4f" font-weight="700" text-anchor="middle">Reduce trips</text>
+      <path d="M60,100 Q90,80 120,100" fill="none" stroke="#1d9e8f" stroke-width="2.5"/>
+      <circle cx="60" cy="100" r="5" fill="#1d9e8f"/>
+      <circle cx="120" cy="100" r="5" fill="#1d9e8f"/>
+      <path d="M75,115 L90,95 L105,115" fill="none" stroke="#1d9e8f" stroke-width="2.5"/>
+      <text x="90" y="135" font-family="sans-serif" font-size="10" fill="#2e7d4f" text-anchor="middle">Coordinate with</text>
+      <text x="90" y="148" font-family="sans-serif" font-size="10" fill="#2e7d4f" text-anchor="middle">neighbours</text>
+      <circle cx="260" cy="100" r="60" fill="white" opacity="0.7"/>
+      <text x="260" y="72" font-family="sans-serif" font-size="11" fill="#2e7d4f" font-weight="700" text-anchor="middle">Safe storage</text>
+      <rect x="235" y="82" width="50" height="45" rx="4" fill="#1d9e8f" opacity="0.3" stroke="#1d9e8f" stroke-width="1.5"/>
+      <ellipse cx="260" cy="82" rx="25" ry="8" fill="#1d9e8f" opacity="0.5"/>
+      <text x="260" y="135" font-family="sans-serif" font-size="10" fill="#2e7d4f" text-anchor="middle">Cover containers,</text>
+      <text x="260" y="148" font-family="sans-serif" font-size="10" fill="#2e7d4f" text-anchor="middle">separate uses</text>
+      <circle cx="430" cy="100" r="60" fill="white" opacity="0.7"/>
+      <text x="430" y="72" font-family="sans-serif" font-size="11" fill="#2e7d4f" font-weight="700" text-anchor="middle">Reuse water</text>
+      <path d="M410,95 Q430,78 450,95 Q450,115 430,115 Q410,115 410,95" fill="none" stroke="#1d9e8f" stroke-width="2.5" marker-end="url(#arr2)"/>
+      <defs><marker id="arr2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1d9e8f"/></marker></defs>
+      <text x="430" y="135" font-family="sans-serif" font-size="10" fill="#2e7d4f" text-anchor="middle">One litre,</text>
+      <text x="430" y="148" font-family="sans-serif" font-size="10" fill="#2e7d4f" text-anchor="middle">multiple purposes</text>
+      <circle cx="610" cy="100" r="60" fill="white" opacity="0.7"/>
+      <text x="610" y="72" font-family="sans-serif" font-size="11" fill="#2e7d4f" font-weight="700" text-anchor="middle">Morning watering</text>
+      <circle cx="610" cy="95" r="18" fill="#f5c842" opacity="0.7"/>
+      <path d="M595,115 Q610,105 625,115" fill="none" stroke="#2e7d4f" stroke-width="2"/>
+      <text x="610" y="135" font-family="sans-serif" font-size="10" fill="#2e7d4f" text-anchor="middle">Less evaporation,</text>
+      <text x="610" y="148" font-family="sans-serif" font-size="10" fill="#2e7d4f" text-anchor="middle">save 20–30%</text>
+    </svg>
+  </div>
+
+  <div class="kc-card">
+    <div class="kc-label">Key concepts — Module 3</div>
+    <h3>Essential knowledge for this module</h3>
+    <div class="kc-item">
+      <div class="kc-item-title">What efficiency means in water management</div>
+      <p>Achieving the same outcome with less water — or a better outcome with the same water. Efficiency eliminates waste in lower-priority uses so that higher-priority needs are always met.</p>
+    </div>
+    <div class="kc-divider"></div>
+    <div class="kc-item">
+      <div class="kc-item-title">Four efficiency strategies</div>
+      <table class="kc-table">
+        <tr><th>Strategy</th><th>Core principle</th><th>Typical saving</th></tr>
+        <tr><td>Reduce collection time</td><td>Fewer trips, shared labour</td><td>Hours per day</td></tr>
+        <tr><td>Safe storage</td><td>Prevent loss and contamination</td><td>Reduces illness and waste</td></tr>
+        <tr><td>Water reuse</td><td>Each litre serves multiple purposes</td><td>10–20% of total use</td></tr>
+        <tr><td>Agricultural efficiency</td><td>Right time, right place, right amount</td><td>20–30% of total use</td></tr>
+      </table>
+    </div>
+    <div class="kc-highlight">Highest-impact combination: Separate agricultural water from household water + water crops in the morning. These two changes alone can reduce total water demand by 20–30%.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Core concept</div>
+    <h3>Four practical strategies</h3>
+    <p>Efficiency means getting the same result with less water. These strategies work in most household settings with no additional equipment required.</p>
+    <div class="divider"></div>
+    <div class="strategy-block">
+      <h4>Strategy 1 — Reduce collection time</h4>
+      <ul>
+        <li>Coordinate with neighbours — take turns so fewer people make the trip each day</li>
+        <li>Use larger containers to reduce the number of trips</li>
+        <li>Collect in the early morning when the source is least crowded</li>
+      </ul>
+    </div>
+    <div class="strategy-block">
+      <h4>Strategy 2 — Store water safely</h4>
+      <ul>
+        <li>Store collected water in covered containers to prevent contamination and evaporation</li>
+        <li>Never store drinking water in the same container used for other purposes</li>
+        <li>In rainy season: collect rainwater from roofs using a clean container</li>
+      </ul>
+    </div>
+    <div class="strategy-block">
+      <h4>Strategy 3 — Reuse water across purposes</h4>
+      <ul>
+        <li>Water used to wash vegetables can water plants</li>
+        <li>Rinse water (without soap) can clean floors</li>
+        <li>Animal drinking water does not need to meet human drinking standards</li>
+      </ul>
+    </div>
+    <div class="strategy-block">
+      <h4>Strategy 4 — Reduce agricultural water use</h4>
+      <ul>
+        <li>Water plants in the early morning or evening — less evaporates than midday watering</li>
+        <li>Water the roots, not the leaves — roots absorb water, leaves do not</li>
+        <li>Mulching (covering soil with dry leaves or straw) keeps moisture in the ground longer</li>
+      </ul>
+    </div>
+    <div class="callout success"><strong>Highest-impact combination:</strong> Separating agricultural water + watering crops in the morning. These two changes alone can reduce total water use by 20–30%.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Scenario + 5 questions</div>
+    <div class="scenario-box">
+      <div class="scenario-title">Mariam's situation</div>
+      <p>Mariam's family of 5 uses 80 litres per day. She waters her vegetable garden at noon with 25 litres. She uses the same bucket for vegetables and drinking water storage. She collects water alone, making 4 trips of 20 L each.</p>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">1. Which two changes would save the most water and improve safety for Mariam?</div>
+      <div class="q-options" id="q2-0">
+        <label><input type="radio" name="q2-0" value="a"> Water the garden at noon with more water, and collect twice a day</label>
+        <label><input type="radio" name="q2-0" value="b"> Water the garden in the early morning, and use separate containers for drinking and gardening</label>
+        <label><input type="radio" name="q2-0" value="c"> Stop growing vegetables entirely to save water</label>
+      </div>
+      <button class="check-btn" onclick="check('q2-0','b','Correct. Morning watering reduces evaporation. Separate containers prevent contamination of drinking water — a health risk as important as the quantity.','Morning watering and container separation address both efficiency and safety. Stopping vegetables removes food security.')">Check answer</button>
+      <div class="feedback" id="fb-q2-0"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">2. Mariam wants to reduce her 4 daily collection trips without reducing total water supply. What is the most practical approach?</div>
+      <div class="q-options" id="q2-1">
+        <label><input type="radio" name="q2-1" value="a"> Ask her children to take over all collection trips</label>
+        <label><input type="radio" name="q2-1" value="b"> Coordinate with two neighbours to take turns — each person collects for all three households on alternating days</label>
+        <label><input type="radio" name="q2-1" value="c"> Collect every other day and use less water on off days</label>
+      </div>
+      <button class="check-btn" onclick="check('q2-1','b','Correct. Shared collection means each person makes the full trip one day in three instead of every day — without reducing total water supply.','Children collecting water means missed school. Alternating supply creates risk on low days.')">Check answer</button>
+      <div class="feedback" id="fb-q2-1"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">3. Match each reuse practice to the correct description. Drag each item to the right zone.</div>
+      <div class="drag-container">
+        <div class="drop-label">Correct reuse practices (drag here):</div>
+        <div class="drop-zone" id="dz-reuse" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="dropItem(event,'dz-reuse')"></div>
+        <div class="drop-label">Incorrect / wasteful practices (drag here):</div>
+        <div class="drop-zone" id="dz-waste" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="dropItem(event,'dz-waste')"></div>
+        <div class="drop-label">Sort these:</div>
+        <div class="drag-bank" id="db-reuse">
+          <span class="drag-item" draggable="true" ondragstart="dragStart(event)" data-val="veg-water">Use vegetable rinse water to water plants</span>
+          <span class="drag-item" draggable="true" ondragstart="dragStart(event)" data-val="soap-floor">Use soapy laundry water to mop floors</span>
+          <span class="drag-item" draggable="true" ondragstart="dragStart(event)" data-val="drink-animal">Give animals the same drinking water as people</span>
+          <span class="drag-item" draggable="true" ondragstart="dragStart(event)" data-val="rinse-floor">Use rinse water (no soap) to clean floors</span>
+        </div>
+        <button class="check-btn" onclick="checkTwoZone('dz-reuse','dz-waste',['veg-water','rinse-floor'],['soap-floor','drink-animal'],'Correct! Vegetable rinse water and clean rinse water are safe to reuse. Soapy water can harm plants, and sharing drinking water with animals risks contamination.','Not quite. Vegetable rinse water and no-soap rinse water are correct reuses. Soapy water harms plants; drinking water should be kept separate from animals.')">Check sorting</button>
+        <div class="drag-feedback" id="fb-dz-reuse"></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">4. Why does watering crops at noon waste significantly more water than watering in the morning?</div>
+      <div class="q-options" id="q2-3">
+        <label><input type="radio" name="q2-3" value="a"> Plants absorb water faster in the morning</label>
+        <label><input type="radio" name="q2-3" value="b"> High midday temperatures cause water to evaporate from the soil before roots can absorb it</label>
+        <label><input type="radio" name="q2-3" value="c"> The sun's light breaks down water molecules</label>
+      </div>
+      <button class="check-btn" onclick="check('q2-3','b','Correct. At midday, soil temperature and direct sunlight cause rapid evaporation. A large proportion of water never reaches the roots. Morning watering loses far less to evaporation.','Think about what happens to water on a hot surface at midday.')">Check answer</button>
+      <div class="feedback" id="fb-q2-3"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">5. Describe one change you could make to water use in a household you know. Which strategy does it belong to, and how much water do you estimate it could save?</div>
+      <div class="open-q">
+        <div class="open-q-label">Your answer</div>
+        <textarea rows="3" placeholder="Be specific — describe the household situation, the change, and your reasoning for the estimate..."></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav-footer">
+    <button onclick="showMod(1)">← Previous</button>
+    <button class="next-btn" onclick="showMod(3)">Next module →</button>
+  </div>
+</div>
+
+<!-- MODULE 4 -->
+<div class="module" id="mod3">
+  <div class="module-header">
+    <div class="module-number">Module 4 of 4</div>
+    <div class="module-title">Community decisions</div>
+  </div>
+
+  <div class="illus">
+    <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">
+      <rect width="720" height="200" fill="#e6f0fb"/>
+      <g transform="translate(80,60)">
+        <circle cx="0" cy="0" r="18" fill="#1d9e8f" opacity="0.7"/>
+        <rect x="-14" y="20" width="28" height="35" rx="6" fill="#1d9e8f" opacity="0.5"/>
+        <text x="0" y="70" font-family="sans-serif" font-size="10" fill="#0d7a6e" text-anchor="middle" font-weight="600">Collector</text>
+      </g>
+      <g transform="translate(180,60)">
+        <circle cx="0" cy="0" r="18" fill="#c47a1a" opacity="0.7"/>
+        <rect x="-14" y="20" width="28" height="35" rx="6" fill="#c47a1a" opacity="0.5"/>
+        <text x="0" y="70" font-family="sans-serif" font-size="10" fill="#c47a1a" text-anchor="middle" font-weight="600">Farmer</text>
+      </g>
+      <g transform="translate(280,60)">
+        <circle cx="0" cy="0" r="18" fill="#185FA5" opacity="0.7"/>
+        <rect x="-14" y="20" width="28" height="35" rx="6" fill="#185FA5" opacity="0.5"/>
+        <text x="0" y="70" font-family="sans-serif" font-size="10" fill="#185FA5" text-anchor="middle" font-weight="600">Elder</text>
+      </g>
+      <circle cx="480" cy="100" r="55" fill="#1d9e8f" opacity="0.18" stroke="#1d9e8f" stroke-width="2"/>
+      <text x="480" y="96" font-family="sans-serif" font-size="13" fill="#0d7a6e" font-weight="700" text-anchor="middle">Shared</text>
+      <text x="480" y="112" font-family="sans-serif" font-size="13" fill="#0d7a6e" font-weight="700" text-anchor="middle">water source</text>
+      <line x1="80" y1="115" x2="430" y2="115" stroke="#1d9e8f" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr3)"/>
+      <line x1="180" y1="115" x2="430" y2="110" stroke="#c47a1a" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr4)"/>
+      <line x1="280" y1="115" x2="430" y2="120" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr5)"/>
+      <defs>
+        <marker id="arr3" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1d9e8f"/></marker>
+        <marker id="arr4" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#c47a1a"/></marker>
+        <marker id="arr5" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#185FA5"/></marker>
+      </defs>
+      <rect x="560" y="55" width="140" height="90" rx="8" fill="white" opacity="0.8" stroke="#185FA5" stroke-width="1.5"/>
+      <text x="630" y="76" font-family="sans-serif" font-size="10" fill="#185FA5" font-weight="700" text-anchor="middle">COLLECTIVE RULES</text>
+      <text x="630" y="95" font-family="sans-serif" font-size="9" fill="#4a4742" text-anchor="middle">Schedule access</text>
+      <text x="630" y="110" font-family="sans-serif" font-size="9" fill="#4a4742" text-anchor="middle">Protect source</text>
+      <text x="630" y="125" font-family="sans-serif" font-size="9" fill="#4a4742" text-anchor="middle">Share burden fairly</text>
+      <line x1="535" y1="100" x2="562" y2="100" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="4,3"/>
+    </svg>
+  </div>
+
+  <div class="kc-card">
+    <div class="kc-label">Key concepts — Module 4</div>
+    <h3>Essential knowledge for this module</h3>
+    <div class="kc-item">
+      <div class="kc-item-title">Water as a common-pool resource</div>
+      <p>A shared water source is a common-pool resource: everyone depends on it, and one person's use affects what is available for others. Common-pool resources require collective management to remain sustainable.</p>
+    </div>
+    <div class="kc-divider"></div>
+    <div class="kc-item">
+      <div class="kc-item-title">Four principles of effective community water management</div>
+      <table class="kc-table">
+        <tr><th>Principle</th><th>What it means in practice</th></tr>
+        <tr><td>Clear rules</td><td>Everyone knows what is and is not allowed near the source</td></tr>
+        <tr><td>Fair distribution</td><td>The burden of collection is shared — not always by the same people</td></tr>
+        <tr><td>Agreed monitoring</td><td>Community members watch for violations and address them together</td></tr>
+        <tr><td>Conflict resolution</td><td>A process exists for resolving disputes before they damage relationships</td></tr>
+      </table>
+    </div>
+    <div class="kc-highlight">Research across multiple countries shows that when women participate in water management decisions, outcomes improve for the entire community: sources are better maintained, rules are more consistently followed, and water is more equitably distributed.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Core concept</div>
+    <h3>Water as a shared resource</h3>
+    <p>Water sources are shared by everyone in a community. When one household wastes water or pollutes a source, it affects all other households.</p>
+    <div class="callout info"><strong>Key idea:</strong> Individual behaviour matters, but the biggest improvements come from collective action — neighbours agreeing on rules, schedules, and responsibilities together.</div>
+    <div class="divider"></div>
+    <h3>Common problems and community solutions</h3>
+    <ul style="margin-top:0.75rem">
+      <li><strong>Overcrowding at the source:</strong> Agree on collection times by household or area</li>
+      <li><strong>Contamination:</strong> No washing, bathing, or animal watering upstream of the collection point</li>
+      <li><strong>Unequal burden:</strong> Community rotas can distribute collection more fairly</li>
+      <li><strong>Seasonal shortage:</strong> Agree to reduce non-essential uses in dry season</li>
+    </ul>
+    <div class="callout warn"><strong>Who makes water decisions?</strong> Women and girls collect water in 80% of households worldwide, but are rarely included in management decisions. Including women consistently leads to better outcomes for the whole community.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">5 questions</div>
+
+    <div class="q-block">
+      <div class="q-text">1. Why is a shared water source described as a "common-pool resource"?</div>
+      <div class="q-options" id="q3-0">
+        <label><input type="radio" name="q3-0" value="a"> Because it is owned by the local government</label>
+        <label><input type="radio" name="q3-0" value="b"> Because everyone depends on it and one person's use affects what is available for others</label>
+        <label><input type="radio" name="q3-0" value="c"> Because it can only be used for drinking water</label>
+      </div>
+      <button class="check-btn" onclick="check('q3-0','b','Correct. A common-pool resource is one that is shared — use by one person reduces what is available for others, making collective management essential.','Think about what happens to the source when one household uses significantly more than others.')">Check answer</button>
+      <div class="feedback" id="fb-q3-0"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">2. Research shows that including women in water management decisions improves outcomes. Which of the following best explains why?</div>
+      <div class="q-options" id="q3-1">
+        <label><input type="radio" name="q3-1" value="a"> Women are naturally better at managing resources than men</label>
+        <label><input type="radio" name="q3-1" value="b"> Women are the primary collectors and users of household water, so they have the most direct knowledge of the problems and needs</label>
+        <label><input type="radio" name="q3-1" value="c"> Decisions made by women are automatically fairer</label>
+      </div>
+      <button class="check-btn" onclick="check('q3-1','b','Correct. Women who collect and manage household water daily have practical, first-hand knowledge of the real challenges — knowledge that is often absent from decisions made without them.','The reason is practical, not inherent. Knowledge and experience from those most affected leads to better decisions.')">Check answer</button>
+      <div class="feedback" id="fb-q3-1"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">3. Drag each problem to the best community solution.</div>
+      <div class="drag-container">
+        <div class="drop-label">Solutions (drag problems here):</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0.5rem">
+          <div>
+            <div class="drop-label" style="font-size:0.72rem">Scheduled access</div>
+            <div class="drop-zone" id="dz-sched" style="min-height:40px" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="dropItem(event,'dz-sched')"></div>
+          </div>
+          <div>
+            <div class="drop-label" style="font-size:0.72rem">Upstream protection rule</div>
+            <div class="drop-zone" id="dz-protect" style="min-height:40px" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="dropItem(event,'dz-protect')"></div>
+          </div>
+        </div>
+        <div class="drop-label">Problems to sort:</div>
+        <div class="drag-bank" id="db-community">
+          <span class="drag-item" draggable="true" ondragstart="dragStart(event)" data-val="crowd">Long queues and waiting times at the source</span>
+          <span class="drag-item" draggable="true" ondragstart="dragStart(event)" data-val="contam">Animals defecating near the water collection point</span>
+        </div>
+        <button class="check-btn" onclick="checkTwoZone('dz-sched','dz-protect',['crowd'],['contam'],'Correct. Scheduling solves overcrowding; upstream protection rules solve contamination from animals near the source.','Scheduling access reduces waiting and crowding. A rule preventing animal activity upstream addresses contamination.')">Check sorting</button>
+        <div class="drag-feedback" id="fb-dz-sched"></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">4. A community has one well and three households. Household A uses the well for 4 hours each morning, leaving little water for households B and C. Which principle of community water management is being violated?</div>
+      <div class="q-options" id="q3-3">
+        <label><input type="radio" name="q3-3" value="a"> Clear rules</label>
+        <label><input type="radio" name="q3-3" value="b"> Fair distribution</label>
+        <label><input type="radio" name="q3-3" value="c"> Conflict resolution</label>
+      </div>
+      <button class="check-btn" onclick="check('q3-3','b','Correct. Fair distribution means the resource is shared equitably — not dominated by one household at the expense of others. A time-based rota would address this.','Consider which principle is about sharing the resource equitably among all users.')">Check answer</button>
+      <div class="feedback" id="fb-q3-3"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">5. Think of a water-related conflict or problem you have observed in a community. Which of the four principles (clear rules, fair distribution, monitoring, conflict resolution) was most absent? What one change might have prevented the problem?</div>
+      <div class="open-q">
+        <div class="open-q-label">Your reflection</div>
+        <textarea rows="3" placeholder="Describe the situation and the principle you think was missing..."></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <div class="card-label">Design challenge — your community water plan</div>
+    <p style="font-size:0.9rem;margin-bottom:1rem">Think about the water source your community uses. Answer the four questions below to sketch a basic community water management plan. Your answers will be used to generate a printable plan.</p>
+
+    <div class="scenario-box" style="margin-bottom:0.75rem">
+      <div class="scenario-title">Question 1 — Identify the problem</div>
+      <p>What is the biggest water challenge in your community right now?</p>
+    </div>
+    <textarea id="t1" rows="3" placeholder="Not enough water? Too far away? Contamination? Conflict over access?"></textarea>
+
+    <div class="scenario-box" style="margin-bottom:0.75rem">
+      <div class="scenario-title">Question 2 — Who is affected most?</div>
+      <p>Which people in your community carry the heaviest burden from this problem?</p>
+    </div>
+    <textarea id="t2" rows="3" placeholder="Women who collect? Children? Farmers? Elderly people?"></textarea>
+
+    <div class="scenario-box" style="margin-bottom:0.75rem">
+      <div class="scenario-title">Question 3 — One change your community could agree on</div>
+      <p>What is one rule or practice that, if everyone followed it, would improve the situation?</p>
+    </div>
+    <textarea id="t3" rows="3" placeholder="Be specific — a time schedule, a protection rule, a collection rota..."></textarea>
+
+    <div class="scenario-box" style="margin-bottom:0.75rem">
+      <div class="scenario-title">Question 4 — How would you measure success?</div>
+      <p>After 4 weeks of this change, how would you know if it was working?</p>
+    </div>
+    <textarea id="t4" rows="3" placeholder="Less time spent collecting? Fewer conflicts? Cleaner water?"></textarea>
+
+    <div class="callout success" id="plan-saved" style="display:none">Your plan has been saved. Click "Print my plan" to download it as a document.</div>
+    <div style="display:flex;align-items:center;gap:0;flex-wrap:wrap;margin-top:0.5rem">
+      <button class="save-btn" onclick="savePlan()">Save my plan</button>
+      <button class="print-btn" id="print-btn" style="display:none" onclick="printPlan()">Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <div class="nav-footer">
+    <button onclick="showMod(2)">← Previous</button>
+    <button class="next-btn" disabled>Curriculum complete</button>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  Developed by Tianning Du &nbsp;·&nbsp; Free to use and share
+</footer>
+
+<div id="print-plan" style="display:none"></div>
+
+<script>
+var dragSrc = null;
+var rankDragSrc = null;
+
+function showMod(n) {
+  document.querySelectorAll('.module').forEach(function(m,i){ m.classList.toggle('active', i===n); });
+  document.querySelectorAll('.nav-tab').forEach(function(b,i){ b.classList.toggle('active', i===n); });
+  document.getElementById('prog').style.width = ((n+1)/4*100) + '%';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function check(qid, correct, okMsg, wrongMsg) {
+  var sel = document.querySelector('input[name="'+qid+'"]:checked');
+  var fb = document.getElementById('fb-'+qid);
+  if (!sel) { fb.style.display='block'; fb.className='feedback wrong'; fb.textContent='Please select an answer first.'; return; }
+  fb.style.display = 'block';
+  fb.className = sel.value === correct ? 'feedback correct' : 'feedback wrong';
+  fb.textContent = sel.value === correct ? okMsg : wrongMsg;
+}
+
+function dragStart(e) {
+  dragSrc = e.target;
+  e.target.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', e.target.dataset.val);
+}
+
+document.addEventListener('dragend', function(e) {
+  if (e.target.classList) e.target.classList.remove('dragging');
+});
+
+function dropItem(e, zoneId) {
+  e.preventDefault();
+  var zone = document.getElementById(zoneId);
+  zone.classList.remove('drag-over');
+  if (dragSrc) {
+    zone.appendChild(dragSrc);
+    dragSrc.setAttribute('ondragover', null);
+  }
+}
+
+function checkDrag(zoneId, correctOrder, ok, wrong) {
+  var zone = document.getElementById(zoneId);
+  var items = Array.from(zone.querySelectorAll('.drag-item')).map(function(i){ return i.dataset.val; });
+  var fb = document.getElementById('fb-'+zoneId);
+  fb.style.display = 'block';
+  var correct = items.length === correctOrder.length && items.every(function(v,i){ return v === correctOrder[i]; });
+  fb.className = 'drag-feedback ' + (correct ? 'correct' : 'wrong');
+  fb.textContent = correct ? ok : wrong;
+}
+
+function checkTwoZone(zone1Id, zone2Id, correct1, correct2, ok, wrong) {
+  var z1 = Array.from(document.getElementById(zone1Id).querySelectorAll('.drag-item')).map(function(i){ return i.dataset.val; });
+  var z2 = Array.from(document.getElementById(zone2Id).querySelectorAll('.drag-item')).map(function(i){ return i.dataset.val; });
+  var fbId = zone1Id === 'dz-reuse' ? 'fb-dz-reuse' : zone1Id === 'dz-sched' ? 'fb-dz-sched' : 'fb-'+zone1Id;
+  var fb = document.getElementById(fbId);
+  fb.style.display = 'block';
+  var ok1 = correct1.every(function(v){ return z1.includes(v); }) && z1.every(function(v){ return correct1.includes(v); });
+  var ok2 = correct2.every(function(v){ return z2.includes(v); }) && z2.every(function(v){ return correct2.includes(v); });
+  fb.className = 'drag-feedback ' + (ok1 && ok2 ? 'correct' : 'wrong');
+  fb.textContent = ok1 && ok2 ? ok : wrong;
+}
+
+function initRankList(listId) {
+  var list = document.getElementById(listId);
+  if (!list) return;
+  list.querySelectorAll('.rank-item').forEach(function(item) {
+    item.addEventListener('dragstart', function(e) {
+      rankDragSrc = item;
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      var rect = item.getBoundingClientRect();
+      var mid = rect.top + rect.height / 2;
+      item.classList.remove('drag-over-top','drag-over-bottom');
+      if (e.clientY < mid) item.classList.add('drag-over-top');
+      else item.classList.add('drag-over-bottom');
+    });
+    item.addEventListener('dragleave', function() {
+      item.classList.remove('drag-over-top','drag-over-bottom');
+    });
+    item.addEventListener('drop', function(e) {
+      e.preventDefault();
+      item.classList.remove('drag-over-top','drag-over-bottom');
+      if (!rankDragSrc || rankDragSrc === item) return;
+      var rect = item.getBoundingClientRect();
+      var mid = rect.top + rect.height / 2;
+      if (e.clientY < mid) list.insertBefore(rankDragSrc, item);
+      else list.insertBefore(rankDragSrc, item.nextSibling);
+    });
+  });
+}
+
+function checkRank(listId, correctOrder, ok, wrong) {
+  var list = document.getElementById(listId);
+  var order = Array.from(list.querySelectorAll('.rank-item')).map(function(i){ return i.dataset.val; });
+  var fb = document.getElementById('fb-'+listId);
+  fb.style.display = 'block';
+  var correct = order.every(function(v,i){ return v === correctOrder[i]; });
+  fb.className = 'drag-feedback ' + (correct ? 'correct' : 'wrong');
+  fb.textContent = correct ? ok : wrong;
+}
+
+initRankList('rank-priority');
+
+function savePlan() {
+  var answers = ['t1','t2','t3','t4'].map(function(id){ return document.getElementById(id).value.trim(); });
+  var filled = answers.filter(function(v){ return v.length > 0; });
+  var ps = document.getElementById('plan-saved');
+  if (filled.length < 4) {
+    ps.style.display = 'block'; ps.className = 'callout warn'; ps.textContent = 'Please answer all four questions before saving.'; return;
+  }
+  ps.style.display = 'block'; ps.className = 'callout success';
+  ps.textContent = 'Your plan has been saved. Click "Print / Save as PDF" to download it.';
+  document.getElementById('print-btn').style.display = 'inline-block';
+}
+
+function printPlan() {
+  var t1 = document.getElementById('t1').value.trim();
+  var t2 = document.getElementById('t2').value.trim();
+  var t3 = document.getElementById('t3').value.trim();
+  var t4 = document.getElementById('t4').value.trim();
+  var today = new Date().toLocaleDateString('en-GB', {year:'numeric',month:'long',day:'numeric'});
+  var fourWeeks = new Date(Date.now() + 28*24*60*60*1000).toLocaleDateString('en-GB', {year:'numeric',month:'long',day:'numeric'});
+
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>My Community Water Plan</title><style>'
+    + 'body{font-family:Georgia,serif;max-width:680px;margin:40px auto;color:#1a2744;padding:0 20px}'
+    + 'h1{font-size:1.6rem;margin-bottom:0.25rem;color:#1a2744}'
+    + '.sub{font-size:0.9rem;color:#9e9a94;margin-bottom:2rem}'
+    + '.section{margin-bottom:1.5rem;border-left:3px solid #1d9e8f;padding-left:1rem}'
+    + '.section-title{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#1d9e8f;margin-bottom:0.4rem}'
+    + '.section-text{font-size:0.95rem;line-height:1.7;color:#4a4742;white-space:pre-wrap}'
+    + '.timeline{margin-top:2rem;border:1px solid #eeece8;border-radius:8px;overflow:hidden}'
+    + '.tl-header{background:#1a2744;color:white;padding:0.75rem 1rem;font-size:0.85rem;font-weight:600}'
+    + '.tl-row{display:flex;border-bottom:1px solid #eeece8}'
+    + '.tl-week{width:90px;flex-shrink:0;background:#f8f7f4;padding:0.6rem 0.75rem;font-size:0.8rem;font-weight:600;color:#1a2744;border-right:1px solid #eeece8}'
+    + '.tl-task{flex:1;padding:0.6rem 0.75rem;font-size:0.85rem;color:#4a4742}'
+    + '.footer{margin-top:2.5rem;font-size:0.78rem;color:#9e9a94;border-top:1px solid #eeece8;padding-top:1rem}'
+    + '@media print{body{margin:20px}}'
+    + '</style></head><body>'
+    + '<h1>My Community Water Management Plan</h1>'
+    + '<div class="sub">Prepared on ' + today + ' &nbsp;·&nbsp; Review date: ' + fourWeeks + '</div>'
+    + '<div class="section"><div class="section-title">The problem I identified</div><div class="section-text">' + t1 + '</div></div>'
+    + '<div class="section"><div class="section-title">Who is most affected</div><div class="section-text">' + t2 + '</div></div>'
+    + '<div class="section"><div class="section-title">The change I am proposing</div><div class="section-text">' + t3 + '</div></div>'
+    + '<div class="section"><div class="section-title">How I will measure success</div><div class="section-text">' + t4 + '</div></div>'
+    + '<div class="timeline">'
+    + '<div class="tl-header">4-week implementation schedule</div>'
+    + '<div class="tl-row"><div class="tl-week">Week 1</div><div class="tl-task">Share the proposed change with at least 3 community members. Explain the problem and the reasoning.</div></div>'
+    + '<div class="tl-row"><div class="tl-week">Week 2</div><div class="tl-task">Begin implementing the change. Observe and note any difficulties or reactions from the community.</div></div>'
+    + '<div class="tl-row"><div class="tl-week">Week 3</div><div class="tl-task">Continue the change. Record any visible differences — less time collecting, fewer conflicts, cleaner water.</div></div>'
+    + '<div class="tl-row"><div class="tl-week">Week 4</div><div class="tl-task">Review against your success measure: ' + t4.substring(0,80) + (t4.length > 80 ? '...' : '') + '</div></div>'
+    + '</div>'
+    + '<div class="footer">Developed using the Water Resource Management Curriculum · Developed by Tianning Du · Free to use and share</div>'
+    + '</body></html>';
+
+  var w = window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
+  setTimeout(function(){ w.print(); }, 400);
+}
+</script>
+
+</body>
+</html>
